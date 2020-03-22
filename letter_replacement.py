@@ -75,7 +75,7 @@ def decode(string):
     return ' '.join(decoded)
 
 
-encoded = encode("The quick brown fox jumps over the lazy dog.")
-print(encoded)
-decoded = decode(encoded)
-print(decoded)
+#encoded = encode("The quick brown fox jumps over the lazy dog.")
+#print(encoded)
+#decoded = decode(encoded)
+#print(decoded)
