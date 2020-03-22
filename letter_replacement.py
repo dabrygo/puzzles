@@ -28,6 +28,7 @@ def encode(string):
         for c in word:
             i = ABC.find(c)
             before = ABC[i-1]
+            # Wrap around if go past right end of list
             after = ABC[(i+1)%len(ABC)]
             new_c = random.choice([before, after])
             new_word += new_c
@@ -37,6 +38,11 @@ def encode(string):
 
 def attempt_words(word):
     '''Return a list of words that may or may not be real'''
+    # If 0 stands for 'use letter before' and 1 'use letter
+    # after', then the numbers from 0 to 2**n (where n is
+    # the length of a string) represent all possible
+    # translations, **if** each number is zero-padded to n places
+    # (e.g. "000" instead of "0" for n=3.
     n = len(word)
     options = [bin(i)[2:].zfill(n) for i in range(2**n)]
     words = []
@@ -48,6 +54,7 @@ def attempt_words(word):
             if choice == '0':
                 new_c = ABC[k-1]
             else:
+                # Wrap around if go past right end of list
                 new_c = ABC[(k+1)%len(ABC)]
             new_word += new_c
         words.append(new_word)
@@ -64,10 +71,13 @@ def decode(string):
     for word in words:
         attempts = attempt_words(word)
         lowered = [word.lower() for word in attempts]
+        # Check if words are in dictionary or if their roots are
+        # in the dictionary (e.g. the root of "tries" is "try")
         successes = [word for word in lowered if word in WORDS or STEMMER.stem(word) in WORDS]
         if len(successes) == 1:
             translation = successes[0]
         elif len(successes) > 1:
+            # If there's more than one translation, show them all to the user
             translation = f"({'|'.join(successes)})"
         else:
             raise ValueError(f"Could not translate '{word}'")
