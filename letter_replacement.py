@@ -13,6 +13,13 @@ STEMMER = SnowballStemmer('english')
 
 
 def encode(string):
+    '''Replace each letter in a string with its alphabetical neighbor.
+
+    For example, encode each:
+      - A to Z or B
+      - B to A or C
+      - Etc.
+    '''
     new_words = []
     string = string.upper()
     for match in re.finditer('\w+', string):
@@ -29,6 +36,7 @@ def encode(string):
 
 
 def attempt_words(word):
+    '''Return a list of words that may or may not be real'''
     n = len(word)
     options = [bin(i)[2:].zfill(n) for i in range(2**n)]
     words = []
@@ -47,6 +55,10 @@ def attempt_words(word):
 
 
 def decode(string):
+    '''Decipher a string whose letters are replaced with alphabetical neighbors
+
+    For example, the word 'GNS' could be deciphered to 'FOR' or 'HOT'
+    '''
     words = string.split('|')
     decoded = []
     for word in words:
