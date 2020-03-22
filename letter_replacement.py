@@ -28,7 +28,7 @@ def encode(string):
         for c in word:
             i = ABC.find(c)
             before = ABC[i-1]
-            after = ABC[i+1]
+            after = ABC[(i+1)%len(ABC)]
             new_c = random.choice([before, after])
             new_word += new_c
         new_words.append(new_word)
@@ -75,7 +75,7 @@ def decode(string):
     return ' '.join(decoded)
 
 
-encoded = encode("To be or not to be. That is the question.")
+encoded = encode("The quick brown fox jumps over the lazy dog.")
 print(encoded)
 decoded = decode(encoded)
 print(decoded)
